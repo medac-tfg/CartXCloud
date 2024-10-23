@@ -1,0 +1,13 @@
+# Node Modules
+node_modules
+
+# TS Dist
+dist
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dotenv
+.env
