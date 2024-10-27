@@ -1,15 +1,24 @@
-import fastify from 'fastify'
+import fastify from "fastify";
+import fastifySocket from "fastify-socket.io";
 
-const server = fastify()
+import cartRoutes from "./routes/securityRoutes.js";
 
-server.get('/ping', async (request, reply) => {
-  return 'pong\n'
-})
+const server = fastify();
 
-server.listen({ port: 8080 }, (err, address) => {
+// Socket
+server.register(fastifySocket as any, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// Register routes
+server.register(cartRoutes);
+
+const APP_PORT = Number(process.env.APP_PORT) || 3000;
+server.listen({ port: APP_PORT }, (err, address) => {
   if (err) {
-    console.error(err)
+    console.error(err);
   }
-  console.log(`Server listening at ${address}`)
-})
-
+  console.log(`Server listening at ${address}`);
+});
