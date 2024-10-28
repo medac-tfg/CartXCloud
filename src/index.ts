@@ -1,7 +1,7 @@
 import fastify from "fastify";
 import fastifySocket from "fastify-socket.io";
 
-import cartRoutes from "./routes/securityRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 
 const server = fastify();
 
