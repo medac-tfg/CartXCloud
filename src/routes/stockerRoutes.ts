@@ -2,8 +2,10 @@ import fastifyPlugin from "fastify-plugin";
 import stockerAppMiddleware from "../middleware/stockerAppMiddleware.js";
 import {
   getLastStoredProducts,
+  getProductByBarcode,
   getShopStatus,
 } from "../controllers/stockerController.js";
+import { getProductByBarcodeSchema } from "../routeSchemas/stockerSchemas.js";
 
 export default fastifyPlugin(async (fastify, _opts) => {
   // Get shop status
@@ -34,7 +36,8 @@ export default fastifyPlugin(async (fastify, _opts) => {
   fastify.route({
     method: "GET",
     url: "/api/stocker/getProductByBarcode",
-    handler: getShopStatus,
+    handler: getProductByBarcode,
     preHandler: stockerAppMiddleware,
+    schema: getProductByBarcodeSchema,
   });
 });
