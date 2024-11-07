@@ -1,17 +1,23 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import Product from "../models/productModel.js";
-import { AddScannedProductBody, GetProductQuery } from "../@types/stocker.js";
 import ScannedProduct from "../models/scannedProductModel.js";
+
+import { AddScannedProductBody, GetProductQuery } from "../@types/stocker.js";
 
 const getShopStatus = async (request: FastifyRequest, reply: FastifyReply) => {
   return "xd";
 };
 
 const getLastStoredProducts = async (
-  request: FastifyRequest,
-  reply: FastifyReply
+  _request: FastifyRequest,
+  _reply: FastifyReply
 ) => {
-  return "xd";
+  const lastStoredProducts = await ScannedProduct.find()
+    .sort({ createdAt: -1 })
+    .limit(10)
+    .populate("productId");
+
+  return lastStoredProducts;
 };
 
 const getTopSoldItems = async (
