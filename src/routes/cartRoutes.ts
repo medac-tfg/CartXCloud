@@ -1,27 +1,23 @@
 import fastifyPlugin from "fastify-plugin";
-import { startOrder } from "../controllers/cartController.js";
+import { addProduct, startOrder } from "../controllers/cartController.js";
 import cartMiddleware from "../middleware/cartMiddleware.js";
+import { addProductSchema } from "../routeSchemas/cartSchemas.js";
 
 export default fastifyPlugin(async (fastify, _opts) => {
-  // User registration route
+  // Start order
   fastify.route({
     method: "POST",
     url: "/api/cart/startOrder",
     handler: startOrder,
     preHandler: cartMiddleware,
-    /*
-    schema: {
-      body: {
-        type: "object",
-        required: ["name", "username", "phone", "password", "birthday"],
-        properties: {
-          name: { type: "string" },
-          username: { type: "string" },
-          phone: { type: "string" },
-          password: { type: "string" },
-          birthday: { type: "string" },
-        },
-      },
-    },*/
+  });
+
+  // Add product to order
+  fastify.route({
+    method: "POST",
+    url: "/api/cart/addProduct",
+    handler: addProduct,
+    preHandler: cartMiddleware,
+    schema: addProductSchema,
   });
 });

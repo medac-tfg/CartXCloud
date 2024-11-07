@@ -1,4 +1,5 @@
-import { ObjectId, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
+import { ObjectId } from "mongodb";
 
 const productSchema = new Schema({
   id: {
@@ -6,7 +7,7 @@ const productSchema = new Schema({
     ref: "Product",
     required: true,
   },
-  price: {
+  priceNoVat: {
     type: Number,
     required: true,
   },
@@ -29,7 +30,7 @@ const discountSchema = new Schema({
 });
 
 interface Ticket {
-  products: { id: ObjectId; price: number; tax: number }[];
+  products: { id: ObjectId; priceNoVat: number; tax: number }[];
   discounts: { id: ObjectId; amount: number }[];
   state: "pending" | "paid" | "cancelled";
   createdAt: Date;
