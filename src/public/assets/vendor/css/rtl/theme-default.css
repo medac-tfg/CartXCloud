@@ -1529,8 +1529,9 @@ li.ui-timepicker-selected,
   background: #fff;
 }
 .bg-menu-theme.menu-horizontal .menu-item.active > .menu-link:not(.menu-toggle) {
-  background: #e9e7fd;
-  color: #7367f0 !important;
+  background: linear-gradient(-270deg, rgba(115, 103, 240, 0.7) 0%, #7367f0 100%);
+  box-shadow: 0px 2px 6px 0px rgba(115, 103, 240, 0.3);
+  color: #fff !important;
 }
 .bg-menu-theme .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-sub,
 .bg-menu-theme .menu-inner > .menu-item.menu-item-closing .menu-item.open .menu-toggle {

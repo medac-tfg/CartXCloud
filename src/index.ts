@@ -12,7 +12,7 @@ import stockerRoutes from "./routes/stockerRoutes.js";
 import panelRoutes from "./routes/panelRoutes.js";
 
 const eta = new Eta();
-const server = fastify();
+const server = fastify({ logger: true });
 
 // Views
 const __filename = fileURLToPath(import.meta.url);
