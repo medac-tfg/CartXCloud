@@ -1,5 +1,33 @@
 import { ObjectId, Schema, model } from "mongoose";
 
+const productSchema = new Schema({
+  id: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  tax: {
+    type: Number,
+    required: true,
+  },
+});
+
+const discountSchema = new Schema({
+  id: {
+    type: Schema.Types.ObjectId,
+    ref: "Discount",
+    required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+});
+
 interface Ticket {
   products: { id: ObjectId; price: number; tax: number }[];
   discounts: { id: ObjectId; amount: number }[];
@@ -8,36 +36,14 @@ interface Ticket {
 }
 
 const ticketSchema = new Schema<Ticket>({
-  products: [
-    {
-      id: {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-      tax: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
-  discounts: [
-    {
-      id: {
-        type: Schema.Types.ObjectId,
-        ref: "Discount",
-        required: true,
-      },
-      amount: {
-        type: Number,
-        required: true,
-      },
-    },
-  ],
+  products: {
+    type: [productSchema],
+    default: [],
+  },
+  discounts: {
+    type: [discountSchema],
+    default: [],
+  },
   state: {
     type: String,
     enum: ["pending", "paid", "cancelled"],
