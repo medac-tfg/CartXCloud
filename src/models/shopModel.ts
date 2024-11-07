@@ -1,4 +1,5 @@
-import { ObjectId, Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
+import { ObjectId } from "mongodb";
 
 interface Shop {
   name: string;
