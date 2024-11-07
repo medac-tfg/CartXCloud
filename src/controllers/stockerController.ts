@@ -33,14 +33,16 @@ const getProductByBarcode = async (
 ) => {
   const { barcode } = request.query;
   if (!barcode) {
-    return reply.status(400).send("Barcode is required");
+    reply.status(400).send("Barcode is required");
+    return;
   }
 
   const product = await Product.findOne({
     barcode,
   });
   if (!product) {
-    return reply.status(404).send("Product not found in database");
+    reply.status(404).send("Product not found in database");
+    return;
   }
 
   return product;
@@ -52,19 +54,20 @@ const addScannedProduct = async (
 ) => {
   const { productId, rfid } = request.body;
   if (!productId || !rfid) {
-    return reply.status(400).send("ProductId and RFID are required");
+    reply.status(400).send("ProductId and RFID are required");
+    return;
   }
 
   const product = await Product.findById(productId);
   if (!product) {
-    return reply.status(404).send("Product not found in database");
+    reply.status(404).send("Product not found in database");
+    return;
   }
 
-  const scannedProduct = new ScannedProduct({
+  const scannedProduct = await ScannedProduct.create({
     productId,
     rfid,
   });
-  await scannedProduct.save();
 
   return scannedProduct;
 };
