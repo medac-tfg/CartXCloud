@@ -33,6 +33,7 @@ interface Ticket {
   products: { id: ObjectId; priceNoVat: number; tax: number }[];
   discounts: { id: ObjectId; amount: number }[];
   state: "pending" | "paid" | "cancelled";
+  cart: ObjectId;
   createdAt: Date;
 }
 
@@ -49,6 +50,11 @@ const ticketSchema = new Schema<Ticket>({
     type: String,
     enum: ["pending", "paid", "cancelled"],
     default: "pending",
+  },
+  cart: {
+    type: Schema.Types.ObjectId,
+    ref: "Cart",
+    required: true,
   },
   createdAt: {
     type: Date,
