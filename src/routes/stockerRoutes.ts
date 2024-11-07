@@ -1,11 +1,12 @@
 import fastifyPlugin from "fastify-plugin";
 import stockerAppMiddleware from "../middleware/stockerAppMiddleware.js";
 import {
+  addScannedProduct,
   getLastStoredProducts,
   getProductByBarcode,
   getShopStatus,
 } from "../controllers/stockerController.js";
-import { getProductByBarcodeSchema } from "../routeSchemas/stockerSchemas.js";
+import { addScannedProductSchema, getProductByBarcodeSchema } from "../routeSchemas/stockerSchemas.js";
 
 export default fastifyPlugin(async (fastify, _opts) => {
   // Get shop status
@@ -39,5 +40,14 @@ export default fastifyPlugin(async (fastify, _opts) => {
     handler: getProductByBarcode,
     preHandler: stockerAppMiddleware,
     schema: getProductByBarcodeSchema,
+  });
+
+  // Add scanned product
+  fastify.route({
+    method: "POST",
+    url: "/api/stocker/addScannedProduct",
+    handler: addScannedProduct,
+    preHandler: stockerAppMiddleware,
+    schema: addScannedProductSchema,
   });
 });

@@ -7,3 +7,14 @@ export const getProductByBarcodeSchema = {
     },
   },
 }
+
+export const addScannedProductSchema = {
+  body: {
+    type: "object",
+    required: ["productId", "rfid"],
+    properties: {
+      productId: { type: "string" },
+      rfid: { type: "string" },
+    },
+  },
+}
