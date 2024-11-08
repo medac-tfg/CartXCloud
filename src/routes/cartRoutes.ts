@@ -1,7 +1,14 @@
 import fastifyPlugin from "fastify-plugin";
-import { addProduct, startOrder } from "../controllers/cartController.js";
+import {
+  startOrder,
+  addProduct,
+  changeAdditionalItemQuantity,
+} from "../controllers/cartController.js";
 import cartMiddleware from "../middleware/cartMiddleware.js";
-import { addProductSchema } from "../routeSchemas/cartSchemas.js";
+import {
+  addProductSchema,
+  changeAdditionalItemQuantitySchema,
+} from "../routeSchemas/cartSchemas.js";
 
 export default fastifyPlugin(async (fastify, _opts) => {
   // Start order
@@ -19,5 +26,14 @@ export default fastifyPlugin(async (fastify, _opts) => {
     handler: addProduct,
     preHandler: cartMiddleware,
     schema: addProductSchema,
+  });
+
+  // Add additional product to order
+  fastify.route({
+    method: "POST",
+    url: "/api/cart/changeAdditionalItemQuantity",
+    handler: changeAdditionalItemQuantity,
+    preHandler: cartMiddleware,
+    schema: changeAdditionalItemQuantitySchema,
   });
 });
