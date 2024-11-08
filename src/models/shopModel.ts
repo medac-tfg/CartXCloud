@@ -4,6 +4,7 @@ import { ObjectId } from "mongodb";
 interface Shop {
   name: string;
   productList: ObjectId[];
+  additionalProductList: ObjectId[];
   createdAt: Date;
 }
 
@@ -15,6 +16,11 @@ const shopSchema = new Schema<Shop>({
   productList: {
     type: [Schema.Types.ObjectId],
     ref: "Product",
+    default: [],
+  },
+  additionalProductList: {
+    type: [Schema.Types.ObjectId],
+    ref: "AdditionalProduct",
     default: [],
   },
   createdAt: {
