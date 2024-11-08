@@ -9,7 +9,7 @@ export const addProductSchema = {
   },
 };
 
-export const changeAdditionalItemSchema = {
+export const changeAdditionalItemQuantitySchema = {
   body: {
     type: "object",
     required: ["itemId", "ticketId", "quantity"],
