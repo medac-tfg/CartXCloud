@@ -366,7 +366,7 @@
 
                   <!-- Active Carts -->
                   <li class="menu-item">
-                    <a href="/" class="menu-link">
+                    <a href="/carts" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
                       <div>Active Carts</div>
                     </a>
@@ -380,19 +380,19 @@
                     </a>
                     <ul class="menu-sub">
                       <li class="menu-item">
-                        <a href="app-email.html" class="menu-link">
+                        <a href="/products/list" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-list-details"></i>
                           <div>Product List</div>
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="app-chat.html" class="menu-link">
+                        <a href="/products/add" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-new-section"></i>
                           <div>Add Product</div>
                         </a>
                       </li>
                       <li class="menu-item">
-                        <a href="app-chat.html" class="menu-link">
+                        <a href="/products/categories" class="menu-link">
                           <i class="menu-icon tf-icons ti ti-layout-list"></i>
                           <div>Category List</div>
                         </a>
@@ -402,7 +402,7 @@
 
                   <!-- FAQ -->
                   <li class="menu-item">
-                    <a href="/" class="menu-link">
+                    <a href="/faq" class="menu-link">
                       <i class="menu-icon tf-icons ti ti-help"></i>
                       <div>FAQ</div>
                     </a>
