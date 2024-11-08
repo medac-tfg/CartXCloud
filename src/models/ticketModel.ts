@@ -15,6 +15,30 @@ const productSchema = new Schema({
     type: Number,
     required: true,
   },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+});
+
+const additionalProductSchema = new Schema({
+  id: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  priceNoVat: {
+    type: Number,
+    required: true,
+  },
+  tax: {
+    type: Number,
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
 });
 
 const discountSchema = new Schema({
@@ -30,7 +54,18 @@ const discountSchema = new Schema({
 });
 
 interface Ticket {
-  products: { id: ObjectId; priceNoVat: number; tax: number }[];
+  products: {
+    id: ObjectId;
+    priceNoVat: number;
+    tax: number;
+    quantity: number;
+  }[];
+  additionalProducts: {
+    id: ObjectId;
+    priceNoVat: number;
+    tax: number;
+    quantity: number;
+  }[];
   discounts: { id: ObjectId; amount: number }[];
   state: "pending" | "paid" | "cancelled";
   cart: ObjectId;
@@ -40,6 +75,10 @@ interface Ticket {
 const ticketSchema = new Schema<Ticket>({
   products: {
     type: [productSchema],
+    default: [],
+  },
+  additionalProducts: {
+    type: [additionalProductSchema],
     default: [],
   },
   discounts: {
