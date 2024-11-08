@@ -1,0 +1,80 @@
+<aside
+  id="layout-menu"
+  class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0"
+>
+  <div class="container-xxl d-flex h-100">
+    <ul class="menu-inner pb-2 pb-xl-0">
+      <!-- Dashboard -->
+      <li class="menu-item">
+        <a href="/" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-3d-cube-sphere"></i>
+          <div>Dashboard</div>
+        </a>
+      </li>
+
+      <!-- Active Carts -->
+      <li class="menu-item">
+        <a href="/carts" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-shopping-cart"></i>
+          <div>Active Carts</div>
+        </a>
+      </li>
+
+      <!-- Products -->
+      <li class="menu-item">
+        <a href="javascript:void(0)" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons ti ti-milk"></i>
+          <div>Products</div>
+        </a>
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="/products/list" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-list-details"></i>
+              <div>Product List</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/products/add" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-new-section"></i>
+              <div>Add Product</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="/products/categories" class="menu-link">
+              <i class="menu-icon tf-icons ti ti-layout-list"></i>
+              <div>Category List</div>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- FAQ -->
+      <li class="menu-item">
+        <a href="/faq" class="menu-link">
+          <i class="menu-icon tf-icons ti ti-help"></i>
+          <div>FAQ</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <script>
+    const currentLocation = window.location.href;
+    const menuItems = document.querySelectorAll(".menu-item");
+
+    menuItems.forEach((item) => {
+      const link = item.querySelector(".menu-link");
+
+      if (link && link.href === currentLocation) {
+        // Add 'active' class to the current menu item
+        item.classList.add("active");
+
+        // Check if this item is inside a submenu
+        let parent = item.closest(".menu-sub");
+        if (parent) {
+          // Add 'active' class to the parent menu-item if it's a sub-item
+          parent.closest(".menu-item").classList.add("active");
+        }
+      }
+    });
+  </script>
+</aside>

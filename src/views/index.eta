@@ -5,7 +5,7 @@
   class="light-style layout-menu-fixed layout-compact"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="public/assets/"
+  data-assets-path="/public/assets/"
   data-template="horizontal-menu-template"
   data-style="light"
 >
@@ -24,7 +24,7 @@
     <link
       rel="icon"
       type="image/x-icon"
-      href="public/assets/img/favicon/favicon.ico"
+      href="/public/assets/img/favicon/favicon.ico"
     />
 
     <!-- Fonts -->
@@ -36,52 +36,52 @@
     />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="public/assets/vendor/fonts/fontawesome.css" />
-    <link rel="stylesheet" href="public/assets/vendor/fonts/tabler-icons.css" />
-    <link rel="stylesheet" href="public/assets/vendor/fonts/flag-icons.css" />
+    <link rel="stylesheet" href="/public/assets/vendor/fonts/fontawesome.css" />
+    <link rel="stylesheet" href="/public/assets/vendor/fonts/tabler-icons.css" />
+    <link rel="stylesheet" href="/public/assets/vendor/fonts/flag-icons.css" />
 
     <!-- Core CSS -->
 
     <link
       rel="stylesheet"
-      href="public/assets/vendor/css/rtl/core.css"
+      href="/public/assets/vendor/css/rtl/core.css"
       class="template-customizer-core-css"
     />
     <link
       rel="stylesheet"
-      href="public/assets/vendor/css/rtl/theme-default.css"
+      href="/public/assets/vendor/css/rtl/theme-default.css"
       class="template-customizer-theme-css"
     />
 
-    <link rel="stylesheet" href="public/assets/css/demo.css" />
+    <link rel="stylesheet" href="/public/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
     <link
       rel="stylesheet"
-      href="public/assets/vendor/libs/node-waves/node-waves.css"
+      href="/public/assets/vendor/libs/node-waves/node-waves.css"
     />
 
     <link
       rel="stylesheet"
-      href="public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"
+      href="/public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"
     />
     <link
       rel="stylesheet"
-      href="public/assets/vendor/libs/typeahead-js/typeahead.css"
+      href="/public/assets/vendor/libs/typeahead-js/typeahead.css"
     />
     <link
       rel="stylesheet"
-      href="public/assets/vendor/libs/apex-charts/apex-charts.css"
+      href="/public/assets/vendor/libs/apex-charts/apex-charts.css"
     />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="public/assets/vendor/js/helpers.js"></script>
+    <script src="/public/assets/vendor/js/helpers.js"></script>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="public/assets/js/config.js"></script>
+    <script src="/public/assets/js/config.js"></script>
   </head>
 
   <body>
@@ -244,7 +244,7 @@
                   >
                     <div class="avatar avatar-online">
                       <img
-                        src="public/assets/img/avatars/1.png"
+                        src="/public/assets/img/avatars/1.png"
                         alt
                         class="rounded-circle"
                       />
@@ -260,7 +260,7 @@
                           <div class="flex-shrink-0 me-2">
                             <div class="avatar avatar-online">
                               <img
-                                src="public/assets/img/avatars/1.png"
+                                src="/public/assets/img/avatars/1.png"
                                 alt
                                 class="rounded-circle"
                               />
@@ -982,7 +982,7 @@
                         <li class="mb-4 d-flex">
                           <div class="d-flex w-50 align-items-center me-4">
                             <img
-                              src="public/assets/img/icons/brands/laravel-logo.png"
+                              src="/public/assets/img/icons/brands/laravel-logo.png"
                               alt="laravel-logo"
                               class="me-4"
                               width="35"
@@ -1012,7 +1012,7 @@
                         <li class="mb-4 d-flex">
                           <div class="d-flex w-50 align-items-center me-4">
                             <img
-                              src="public/assets/img/icons/brands/figma-logo.png"
+                              src="/public/assets/img/icons/brands/figma-logo.png"
                               alt="figma-logo"
                               class="me-4"
                               width="35"
@@ -1042,7 +1042,7 @@
                         <li class="mb-4 d-flex">
                           <div class="d-flex w-50 align-items-center me-4">
                             <img
-                              src="public/assets/img/icons/brands/vue-logo.png"
+                              src="/public/assets/img/icons/brands/vue-logo.png"
                               alt="vue-logo"
                               class="me-4"
                               width="35"
@@ -1072,7 +1072,7 @@
                         <li class="mb-4 d-flex">
                           <div class="d-flex w-50 align-items-center me-4">
                             <img
-                              src="public/assets/img/icons/brands/react-logo.png"
+                              src="/public/assets/img/icons/brands/react-logo.png"
                               alt="react-logo"
                               class="me-4"
                               width="35"
@@ -1102,7 +1102,7 @@
                         <li class="mb-4 d-flex">
                           <div class="d-flex w-50 align-items-center me-4">
                             <img
-                              src="public/assets/img/icons/brands/bootstrap-logo.png"
+                              src="/public/assets/img/icons/brands/bootstrap-logo.png"
                               alt="bootstrap-logo"
                               class="me-4"
                               width="35"
@@ -1132,7 +1132,7 @@
                         <li class="d-flex">
                           <div class="d-flex w-50 align-items-center me-4">
                             <img
-                              src="public/assets/img/icons/brands/sketch-logo.png"
+                              src="/public/assets/img/icons/brands/sketch-logo.png"
                               alt="sketch-logo"
                               class="me-4"
                               width="35"
@@ -1217,7 +1217,7 @@
                               >
                                 <div class="me-4">
                                   <img
-                                    src="public/assets/img/icons/payments/visa-img.png"
+                                    src="/public/assets/img/icons/payments/visa-img.png"
                                     alt="Visa"
                                     height="30"
                                   />
@@ -1252,7 +1252,7 @@
                               >
                                 <div class="me-4">
                                   <img
-                                    src="public/assets/img/icons/payments/master-card-img.png"
+                                    src="/public/assets/img/icons/payments/master-card-img.png"
                                     alt="Visa"
                                     height="30"
                                   />
@@ -1287,7 +1287,7 @@
                               >
                                 <div class="me-4">
                                   <img
-                                    src="public/assets/img/icons/payments/american-express-img.png"
+                                    src="/public/assets/img/icons/payments/american-express-img.png"
                                     alt="Visa"
                                     height="30"
                                   />
@@ -1322,7 +1322,7 @@
                               >
                                 <div class="me-4">
                                   <img
-                                    src="public/assets/img/icons/payments/visa-img.png"
+                                    src="/public/assets/img/icons/payments/visa-img.png"
                                     alt="Visa"
                                     height="30"
                                   />
@@ -1357,7 +1357,7 @@
                               >
                                 <div class="me-4">
                                   <img
-                                    src="public/assets/img/icons/payments/visa-img.png"
+                                    src="/public/assets/img/icons/payments/visa-img.png"
                                     alt="Visa"
                                     height="30"
                                   />
@@ -1446,7 +1446,7 @@
                             <div class="d-flex align-items-center mb-1">
                               <div class="badge bg-lighter rounded-3">
                                 <img
-                                  src="public/assets//img/icons/misc/pdf.png"
+                                  src="/public/assets//img/icons/misc/pdf.png"
                                   alt="img"
                                   width="15"
                                   class="me-2"
@@ -1476,7 +1476,7 @@
                               <div class="d-flex flex-wrap align-items-center">
                                 <div class="avatar avatar-sm me-2">
                                   <img
-                                    src="public/assets/img/avatars/1.png"
+                                    src="/public/assets/img/avatars/1.png"
                                     alt="Avatar"
                                     class="rounded-circle"
                                   />
@@ -1522,7 +1522,7 @@
                                     >
                                       <img
                                         class="rounded-circle"
-                                        src="public/assets/img/avatars/5.png"
+                                        src="/public/assets/img/avatars/5.png"
                                         alt="Avatar"
                                       />
                                     </li>
@@ -1535,7 +1535,7 @@
                                     >
                                       <img
                                         class="rounded-circle"
-                                        src="public/assets/img/avatars/12.png"
+                                        src="/public/assets/img/avatars/12.png"
                                         alt="Avatar"
                                       />
                                     </li>
@@ -1548,7 +1548,7 @@
                                     >
                                       <img
                                         class="rounded-circle"
-                                        src="public/assets/img/avatars/6.png"
+                                        src="/public/assets/img/avatars/6.png"
                                         alt="Avatar"
                                       />
                                     </li>
@@ -1577,27 +1577,7 @@
             <!--/ Content -->
 
             <!-- Footer -->
-            <footer class="content-footer footer bg-footer-theme">
-              <div class="container-xxl">
-                <div
-                  class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column"
-                >
-                  <div class="text-body">
-                    ©
-                    <script>
-                      document.write(new Date().getFullYear());
-                    </script>
-                    , made with ❤️ by
-                    <a href="/" target="_blank" class="footer-link">visibait</a>
-                  </div>
-                  <div class="d-none d-lg-inline-block">
-                    <a href="/" class="footer-link me-4" target="_blank"
-                      >Website</a
-                    >
-                  </div>
-                </div>
-              </div>
-            </footer>
+            <%~ include("./partials/footer.eta", it) %>
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>
@@ -1620,24 +1600,24 @@
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
 
-    <script src="public/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="public/assets/vendor/libs/popper/popper.js"></script>
-    <script src="public/assets/vendor/js/bootstrap.js"></script>
-    <script src="public/assets/vendor/libs/node-waves/node-waves.js"></script>
-    <script src="public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="public/assets/vendor/libs/hammer/hammer.js"></script>
-    <script src="public/assets/vendor/libs/typeahead-js/typeahead.js"></script>
-    <script src="public/assets/vendor/js/menu.js"></script>
+    <script src="/public/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/public/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/public/assets/vendor/js/bootstrap.js"></script>
+    <script src="/public/assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/public/assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="/public/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="/public/assets/vendor/js/menu.js"></script>
 
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="public/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="/public/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
-    <script src="public/assets/js/main.js"></script>
+    <script src="/public/assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="public/assets/js/dashboards-crm.js"></script>
+    <script src="/public/assets/js/dashboards-crm.js"></script>
   </body>
 </html>
