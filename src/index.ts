@@ -41,8 +41,9 @@ server.register(cartRoutes);
 server.register(securityRoutes);
 server.register(stockerRoutes);
 
+const APP_HOST = process.env.APP_HOST || "127.0.0.1";
 const APP_PORT = Number(process.env.APP_PORT) || 3000;
-server.listen({ port: APP_PORT }, (err, address) => {
+server.listen({ host: APP_HOST, port: APP_PORT }, (err, address) => {
   if (err) {
     console.error(err);
   }
