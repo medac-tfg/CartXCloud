@@ -37,7 +37,10 @@
 
     <!-- Icons -->
     <link rel="stylesheet" href="/public/assets/vendor/fonts/fontawesome.css" />
-    <link rel="stylesheet" href="/public/assets/vendor/fonts/tabler-icons.css" />
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/fonts/tabler-icons.css"
+    />
     <link rel="stylesheet" href="/public/assets/vendor/fonts/flag-icons.css" />
 
     <!-- Core CSS -->
@@ -75,7 +78,10 @@
     />
 
     <!-- Page CSS -->
-    <link rel="stylesheet" href="/public/assets/vendor/css/pages/page-faq.css" />
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/css/pages/page-faq.css"
+    />
 
     <!-- Helpers -->
     <script src="/public/assets/vendor/js/helpers.js"></script>

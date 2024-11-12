@@ -12,9 +12,7 @@
         <a href="/" target="_blank" class="footer-link">visibait</a>
       </div>
       <div class="d-none d-lg-inline-block">
-        <a href="/" class="footer-link me-4" target="_blank"
-          >Website</a
-        >
+        <a href="/" class="footer-link me-4" target="_blank">Website</a>
       </div>
     </div>
   </div>
