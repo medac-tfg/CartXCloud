@@ -1,11 +1,692 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html
+  lang="en"
+  class="light-style layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="/public/assets/"
+  data-template="horizontal-menu-template"
+  data-style="light"
+>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>Carts | CartX</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="/public/assets/img/favicon/favicon.ico"
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="/public/assets/vendor/fonts/fontawesome.css" />
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/fonts/tabler-icons.css"
+    />
+    <link rel="stylesheet" href="/public/assets/vendor/fonts/flag-icons.css" />
+
+    <!-- Core CSS -->
+
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/css/rtl/core.css"
+      class="template-customizer-core-css"
+    />
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/css/rtl/theme-default.css"
+      class="template-customizer-theme-css"
+    />
+
+    <link rel="stylesheet" href="/public/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/libs/node-waves/node-waves.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/libs/typeahead-js/typeahead.css"
+    />
+
+    <!-- Page CSS -->
+
+    <link
+      rel="stylesheet"
+      href="/public/assets/vendor/css/pages/app-logistics-fleet.css"
+    />
+
+    <!-- Helpers -->
+    <script src="/public/assets/vendor/js/helpers.js"></script>
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/public/assets/js/config.js"></script>
   </head>
+
   <body>
-    <h1>WIP</h1>
+    <!-- Layout wrapper -->
+    <div
+      class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu"
+    >
+      <div class="layout-container">
+        <!-- Header -->
+        <%~ include("../partials/header.eta", it) %>
+        <!-- / Header -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Menu -->
+            <%~ include("../partials/navbar.eta", it) %>
+            <!-- / Menu -->
+
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="card overflow-hidden">
+                <!-- Map Menu Wrapper -->
+                <div class="d-flex app-logistics-fleet-wrapper">
+                  <!-- Map Menu Button when screen is < md -->
+                  <div
+                    class="flex-shrink-0 position-fixed m-6 d-md-none w-auto z-1"
+                  >
+                    <button
+                      class="btn btn-white btn-white-dark-variant z-2 p-2"
+                      data-bs-toggle="sidebar"
+                      data-overlay=""
+                      data-target="#app-logistics-fleet-sidebar"
+                    >
+                      <i class="ti ti-menu-2 ti-md"></i>
+                    </button>
+                  </div>
+
+                  <!-- Map Menu -->
+                  <div
+                    class="app-logistics-fleet-sidebar col h-100"
+                    id="app-logistics-fleet-sidebar"
+                  >
+                    <div
+                      class="card-header border-0 pt-6 pb-1 d-flex justify-content-between"
+                    >
+                      <h5 class="mb-0 card-title">Fleet</h5>
+                      <!-- Sidebar close button -->
+                      <i
+                        class="ti ti-x ti-xs cursor-pointer close-sidebar d-md-none btn btn-sm btn-icon btn-text-secondary rounded-pill p-0"
+                        data-bs-toggle="sidebar"
+                        data-overlay
+                        data-target="#app-logistics-fleet-sidebar"
+                      ></i>
+                    </div>
+                    <!-- Sidebar when screen < md -->
+                    <div class="card-body p-0 logistics-fleet-sidebar-body">
+                      <!-- Menu Accordion -->
+                      <div
+                        class="accordion py-2 px-1"
+                        id="fleet"
+                        data-bs-toggle="sidebar"
+                        data-overlay
+                        data-target="#app-logistics-fleet-sidebar"
+                      >
+                        <!-- Fleet 1 -->
+                        <div
+                          class="accordion-item border-0 active mb-0 shadow-none"
+                          id="fl-1"
+                        >
+                          <div class="accordion-header" id="fleetOne">
+                            <div
+                              role="button"
+                              class="accordion-button shadow-none align-items-center"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#fleet1"
+                              aria-expanded="true"
+                              aria-controls="fleet1"
+                            >
+                              <div class="d-flex align-items-center">
+                                <div class="avatar-wrapper">
+                                  <div class="avatar me-4">
+                                    <span
+                                      class="avatar-initial rounded-circle bg-label-secondary"
+                                      ><i class="ti ti-shopping-cart"></i
+                                    ></span>
+                                  </div>
+                                </div>
+                                <span class="d-flex flex-column gap-1">
+                                  <span class="text-heading">VOL-342808</span>
+                                  <span class="text-body"
+                                    >Chelsea, NY, USA</span
+                                  >
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            id="fleet1"
+                            class="accordion-collapse collapse show"
+                            data-bs-parent="#fleet"
+                          >
+                            <div class="accordion-body pt-4 pb-0">
+                              <div
+                                class="d-flex align-items-center justify-content-between"
+                              >
+                                <h6 class="fw-normal mb-1">Delivery Process</h6>
+                                <p class="text-body mb-1">88%</p>
+                              </div>
+                              <div class="progress">
+                                <div
+                                  class="progress-bar"
+                                  role="progressbar"
+                                  style="width: 88%"
+                                  aria-valuenow="88"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <ul class="timeline ps-4 mt-6">
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >tracking number created</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Veronica Herman</h6>
+                                    <small class="text-body"
+                                      >Sep 01, 7:53 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >out for delivery</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Veronica Herman</h6>
+                                    <small class="text-body"
+                                      >Sep 03, 8:02 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 border-transparent"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-primary border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-map-pin mt-1"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small
+                                        class="text-primary text-uppercase fw-medium"
+                                        >arriving</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Veronica Herman</h6>
+                                    <small class="text-body"
+                                      >Sep 04, 8:18 AM</small
+                                    >
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Fleet 2 -->
+                        <div
+                          class="accordion-item border-0 mb-0 shadow-none"
+                          id="fl-2"
+                        >
+                          <div class="accordion-header" id="fleetTwo">
+                            <div
+                              role="button"
+                              class="accordion-button collapsed shadow-none align-items-center"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#fleet2"
+                              aria-expanded="true"
+                              aria-controls="fleet2"
+                            >
+                              <div class="d-flex align-items-center">
+                                <div class="avatar-wrapper">
+                                  <div class="avatar me-4">
+                                    <span
+                                      class="avatar-initial rounded-circle bg-label-secondary"
+                                      ><i class="ti ti-shopping-cart"></i
+                                    ></span>
+                                  </div>
+                                </div>
+                                <span class="d-flex flex-column gap-1">
+                                  <span class="text-heading">VOL-954784</span>
+                                  <span class="text-body"
+                                    >Lincoln Harbor, NY, USA</span
+                                  >
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            id="fleet2"
+                            class="accordion-collapse collapse"
+                            data-bs-parent="#fleet"
+                          >
+                            <div class="accordion-body pt-4 pb-0">
+                              <div
+                                class="d-flex align-items-center justify-content-between"
+                              >
+                                <h6 class="fw-normal mb-1">Delivery Process</h6>
+                                <p class="text-body mb-1">100%</p>
+                              </div>
+                              <div class="progress">
+                                <div
+                                  class="progress-bar"
+                                  role="progressbar"
+                                  style="width: 100%"
+                                  aria-valuenow="100"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <ul class="timeline ps-4 mt-6">
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >tracking number created</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Myrtle Ullrich</h6>
+                                    <small class="text-body"
+                                      >Sep 01, 7:53 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >out for delivery</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Myrtle Ullrich</h6>
+                                    <small class="text-body"
+                                      >Sep 03, 8:02 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 border-transparent"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-primary border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-map-pin mt-1"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small
+                                        class="text-primary text-uppercase fw-medium"
+                                        >arrived</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Myrtle Ullrich</h6>
+                                    <small class="text-body"
+                                      >Sep 04, 8:18 AM</small
+                                    >
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Fleet 3 -->
+                        <div
+                          class="accordion-item border-0 mb-0 shadow-none"
+                          id="fl-3"
+                        >
+                          <div class="accordion-header" id="fleetThree">
+                            <div
+                              role="button"
+                              class="accordion-button collapsed shadow-none align-items-center"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#fleet3"
+                              aria-expanded="true"
+                              aria-controls="fleet3"
+                            >
+                              <div class="d-flex align-items-center">
+                                <div class="avatar-wrapper">
+                                  <div class="avatar me-4">
+                                    <span
+                                      class="avatar-initial rounded-circle bg-label-secondary"
+                                      ><i class="ti ti-shopping-cart"></i
+                                    ></span>
+                                  </div>
+                                </div>
+                                <span class="d-flex flex-column gap-1">
+                                  <span class="text-heading">VOL-342808</span>
+                                  <span class="text-body"
+                                    >Midtown East, NY, USA</span
+                                  >
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            id="fleet3"
+                            class="accordion-collapse collapse"
+                            data-bs-parent="#fleet"
+                          >
+                            <div class="accordion-body pt-4 pb-0">
+                              <div
+                                class="d-flex align-items-center justify-content-between"
+                              >
+                                <h6 class="fw-normal mb-1">Delivery Process</h6>
+                                <p class="text-body mb-1">60%</p>
+                              </div>
+                              <div class="progress">
+                                <div
+                                  class="progress-bar"
+                                  role="progressbar"
+                                  style="width: 60%"
+                                  aria-valuenow="60"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <ul class="timeline ps-4 mt-6">
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >tracking number created</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Barry Schowalter</h6>
+                                    <small class="text-body"
+                                      >Sep 01, 7:53 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >out for delivery</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Barry Schowalter</h6>
+                                    <small class="text-body"
+                                      >Sep 03, 8:02 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 border-transparent"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-secondary border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-map-pin mt-1"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small
+                                        class="text-secondary text-uppercase fw-medium"
+                                        >arriving</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Barry Schowalter</h6>
+                                    <small class="text-body"
+                                      >Sep 04, 8:18 AM</small
+                                    >
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Fleet 4 -->
+                        <div
+                          class="accordion-item border-0 mb-4 shadow-none"
+                          id="fl-4"
+                        >
+                          <div class="accordion-header" id="fleetFour">
+                            <div
+                              role="button"
+                              class="accordion-button collapsed shadow-none align-items-center"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#fleet4"
+                              aria-expanded="true"
+                              aria-controls="fleet4"
+                            >
+                              <div class="d-flex align-items-center">
+                                <div class="avatar-wrapper">
+                                  <div class="avatar me-4">
+                                    <span
+                                      class="avatar-initial rounded-circle bg-label-secondary"
+                                      ><i class="ti ti-shopping-cart"></i
+                                    ></span>
+                                  </div>
+                                </div>
+                                <span class="d-flex flex-column gap-1">
+                                  <span class="text-heading">VOL-343908</span>
+                                  <span class="text-body"
+                                    >Hoboken, NY, USA</span
+                                  >
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            id="fleet4"
+                            class="accordion-collapse collapse"
+                            data-bs-parent="#fleet"
+                          >
+                            <div class="accordion-body pt-4 pb-0">
+                              <div
+                                class="d-flex align-items-center justify-content-between"
+                              >
+                                <h6 class="fw-normal mb-1">Delivery Process</h6>
+                                <p class="text-body mb-1">28%</p>
+                              </div>
+                              <div class="progress">
+                                <div
+                                  class="progress-bar"
+                                  role="progressbar"
+                                  style="width: 28%"
+                                  aria-valuenow="28"
+                                  aria-valuemin="0"
+                                  aria-valuemax="100"
+                                ></div>
+                              </div>
+                              <ul class="timeline ps-4 mt-6">
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-success border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small class="text-success text-uppercase"
+                                        >tracking number created</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Helen Jacobs</h6>
+                                    <small class="text-body"
+                                      >Sep 01, 7:53 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 pb-3 border-left-dashed"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-secondary border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-circle-check"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small
+                                        class="text-secondary text-uppercase fw-medium"
+                                        >out for delivery</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Helen Jacobs</h6>
+                                    <small class="text-body"
+                                      >Sep 03, 8:02 AM</small
+                                    >
+                                  </div>
+                                </li>
+                                <li
+                                  class="timeline-item ps-6 border-transparent"
+                                >
+                                  <span
+                                    class="timeline-indicator-advanced timeline-indicator-secondary border-0 shadow-none"
+                                  >
+                                    <i class="ti ti-map-pin mt-1"></i>
+                                  </span>
+                                  <div class="timeline-event ps-0 pb-0">
+                                    <div class="timeline-header">
+                                      <small
+                                        class="text-secondary text-uppercase fw-medium"
+                                        >arriving</small
+                                      >
+                                    </div>
+                                    <h6 class="my-50">Helen Jacobs</h6>
+                                    <small class="text-body"
+                                      >Sep 04, 8:18 AM</small
+                                    >
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Camera container -->
+                  <div class="col h-100">
+                    <!-- AQUI PONDREMOS LA CAMARA DE LA CART -->
+                  </div>
+
+                  <!-- Overlay Hidden -->
+                  <div class="app-overlay d-none"></div>
+                </div>
+              </div>
+            </div>
+            <!--/ Content -->
+
+            <!-- Footer -->
+            <%~ include("../partials/footer.eta", it) %>
+            <!-- / Footer -->
+
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!--/ Content wrapper -->
+        </div>
+
+        <!--/ Layout container -->
+      </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+
+    <!--/ Layout wrapper -->
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+
+    <script src="/public/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/public/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/public/assets/vendor/js/bootstrap.js"></script>
+    <script src="/public/assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="/public/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/public/assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="/public/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="/public/assets/vendor/js/menu.js"></script>
+
+    <!-- endbuild -->
+
+    <!-- Main JS -->
+    <script src="/public/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/public/assets/js/app-logistics-fleet.js"></script>
   </body>
 </html>
