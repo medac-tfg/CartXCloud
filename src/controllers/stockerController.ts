@@ -1,11 +1,21 @@
 import { FastifyRequest, FastifyReply } from "fastify";
+
 import Product from "../models/productModel.js";
 import ScannedProduct from "../models/scannedProductModel.js";
+import SoldProduct from "../models/soldProductModel.js";
 
 import { AddScannedProductBody, GetProductQuery } from "../@types/stocker.js";
 
 const getShopStatus = async (request: FastifyRequest, reply: FastifyReply) => {
-  return "xd";
+  const productsCount = await Product.countDocuments();
+  const soldProductsCount = await SoldProduct.countDocuments();
+  const scannedProductsCount = await ScannedProduct.countDocuments();
+
+  return {
+    productsCount,
+    soldProductsCount,
+    scannedProductsCount,
+  };
 };
 
 const getLastStoredProducts = async (
@@ -21,10 +31,34 @@ const getLastStoredProducts = async (
 };
 
 const getTopSoldItems = async (
-  request: FastifyRequest,
+  _request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  return "xd";
+  try {
+    const topSoldItems = await SoldProduct.aggregate([
+      {
+        $group: {
+          _id: "$productId",
+          totalSold: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { totalSold: -1 },
+      },
+      {
+        $limit: 10,
+      },
+    ]);
+
+    const populatedTopSoldItems = await SoldProduct.populate(topSoldItems, {
+      path: "_id",
+      model: "Product",
+    });
+
+    return populatedTopSoldItems;
+  } catch (error) {
+    reply.status(500).send({ error: "Failed to retrieve top sold items" });
+  }
 };
 
 const getProductByBarcode = async (
