@@ -6,7 +6,10 @@ import SoldProduct from "../models/soldProductModel.js";
 
 import { AddScannedProductBody, GetProductQuery } from "../@types/stocker.js";
 
-const getShopStatus = async (request: FastifyRequest, reply: FastifyReply) => {
+const getShopStatus = async (
+  _request: FastifyRequest,
+  _reply: FastifyReply
+) => {
   const productsCount = await Product.countDocuments();
   const soldProductsCount = await SoldProduct.countDocuments();
   const scannedProductsCount = await ScannedProduct.countDocuments();
