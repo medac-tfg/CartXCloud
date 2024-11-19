@@ -1,10 +1,11 @@
 import fastifyPlugin from "fastify-plugin";
 import stockerAppMiddleware from "../middleware/stockerAppMiddleware.js";
 import {
-  addScannedProduct,
-  getLastStoredProducts,
-  getProductByBarcode,
   getShopStatus,
+  getLastStoredProducts,
+  getTopSoldItems,
+  getProductByBarcode,
+  addScannedProduct,
 } from "../controllers/stockerController.js";
 import { addScannedProductSchema, getProductByBarcodeSchema } from "../routeSchemas/stockerSchemas.js";
 
@@ -29,7 +30,7 @@ export default fastifyPlugin(async (fastify, _opts) => {
   fastify.route({
     method: "GET",
     url: "/api/stocker/getTopSoldItems",
-    handler: getShopStatus,
+    handler: getTopSoldItems,
     preHandler: stockerAppMiddleware,
   });
 

@@ -25,12 +25,52 @@ const getLastStoredProducts = async (
   _request: FastifyRequest,
   _reply: FastifyReply
 ) => {
-  const lastStoredProducts = await ScannedProduct.find()
-    .sort({ createdAt: -1 })
-    .limit(10)
-    .populate("productId");
+  try {
+    const lastStoredProducts = await ScannedProduct.aggregate([
+      // Sort by createdAt descending to get the latest scanned products
+      { $sort: { createdAt: -1 } },
+      // Limit to the last 100 scanned products to have a good sample size
+      { $limit: 100 },
+      // Group by productId to aggregate counts and get the most recent createdAt
+      {
+        $group: {
+          _id: "$productId",
+          quantity: { $sum: 1 },
+          firstCreatedAt: { $first: "$createdAt" },
+        },
+      },
+      // Sort the groups by the most recent createdAt
+      { $sort: { firstCreatedAt: -1 } },
+      // Limit to up to 3 products
+      { $limit: 3 },
+      // Lookup product details from the Product collection
+      {
+        $lookup: {
+          from: "products", // Replace with the actual collection name if different
+          localField: "_id",
+          foreignField: "_id",
+          as: "productDetails",
+        },
+      },
+      // Unwind the productDetails array to simplify the structure
+      { $unwind: "$productDetails" },
+      // Project the required fields: name, weight, and quantity
+      {
+        $project: {
+          _id: 0,
+          name: "$productDetails.name",
+          weight: "$productDetails.weight",
+          quantity: 1,
+        },
+      },
+    ]);
 
-  return lastStoredProducts;
+    console.log(lastStoredProducts);
+
+    return lastStoredProducts;
+  } catch (error) {
+    _reply.status(500).send({ error: "Failed to retrieve last stored products" });
+  }
 };
 
 const getTopSoldItems = async (
