@@ -10,6 +10,7 @@ import cartRoutes from "./routes/cartRoutes.js";
 import securityRoutes from "./routes/securityRoutes.js";
 import stockerRoutes from "./routes/stockerRoutes.js";
 import panelRoutes from "./routes/panelRoutes.js";
+import dbConnect from "./config/dbConnect.js";
 
 const eta = new Eta();
 const server = fastify({ logger: true });
@@ -40,6 +41,9 @@ server.register(panelRoutes);
 server.register(cartRoutes);
 server.register(securityRoutes);
 server.register(stockerRoutes);
+
+// Initialize database connection
+dbConnect();
 
 const APP_HOST = process.env.APP_HOST || "127.0.0.1";
 const APP_PORT = Number(process.env.APP_PORT) || 3000;
