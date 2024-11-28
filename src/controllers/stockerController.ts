@@ -60,6 +60,7 @@ const getLastStoredProducts = async (
           _id: 0,
           name: "$productDetails.name",
           weight: "$productDetails.weight",
+          image: "$productDetails.image",
           quantity: 1,
         },
       },
@@ -138,6 +139,12 @@ const addScannedProduct = async (
   const product = await Product.findById(productId);
   if (!product) {
     reply.status(404).send("Product not found in database");
+    return;
+  }
+
+  const existingScannedProduct = await ScannedProduct.findOne({ rfid });
+  if (existingScannedProduct) {
+    reply.status(409).send("That RFID tag has already been scanned before");
     return;
   }
 
