@@ -5,13 +5,25 @@ import ScannedProduct from "../models/scannedProductModel.js";
 import AdditionalProduct from "../models/additionalProductModel.js";
 
 import {
+  StartOrderBody,
   AddProductBody,
   ChangeAdditionalItemQuantityBody,
 } from "../@types/cart.js";
 
-const startOrder = async (_request: FastifyRequest, _reply: FastifyReply) => {
-  const ticket = await Ticket.create();
-  return ticket;
+const startOrder = async (
+  request: FastifyRequest<{ Body: StartOrderBody }>,
+  reply: FastifyReply
+) => {
+  const { shoppingMethod } = request.body;
+  if (!shoppingMethod) {
+    reply.code(400).send({ message: "Shopping method is required" });
+    return;
+  }
+
+  // Note that cartId is already available in the request object due to the middleware
+  const ticket = await Ticket.create({ shoppingMethod, cart: request.cartId });
+
+  return { ticketId: ticket._id };
 };
 
 const addProduct = async (

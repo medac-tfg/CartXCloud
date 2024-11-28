@@ -5,6 +5,7 @@ const stockerAppMiddleware = (
   reply: FastifyReply,
   next: (err?: Error) => void
 ) => {
+  /*
   // Get token from header and remove the "Bearer " part
   const token = request.headers.authorization?.split(" ")[1];
 
@@ -17,7 +18,9 @@ const stockerAppMiddleware = (
     next();
   } catch (err) {
     return reply.status(401).send("Token is not valid");
-  }
+  }*/
+
+  next();
 };
 
 export default stockerAppMiddleware;

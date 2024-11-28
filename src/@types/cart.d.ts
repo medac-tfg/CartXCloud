@@ -1,3 +1,7 @@
+export interface StartOrderBody {
+  shoppingMethod: string;
+}
+
 export interface AddProductBody {
   ticketId: string;
   rfid: string;
