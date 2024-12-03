@@ -45,18 +45,15 @@ const addProducts = async (
     return;
   }
 
-  // Encontrar todos los ScannedProducts para las etiquetas dadas
   const scannedProducts = await ScannedProduct.find({ rfid: { $in: tags } });
-
   if (!scannedProducts || scannedProducts.length === 0) {
-    // No se encontraron productos escaneados
     reply
       .code(404)
       .send({ message: "No products found for the provided tags" });
     return;
   }
 
-  // Construir un mapa de productId a quantity
+  // Build a map of productId to quantity
   const productQuantities: { [productId: string]: number } = {};
 
   scannedProducts.forEach((sp) => {
@@ -67,7 +64,7 @@ const addProducts = async (
 
   const uniqueProductIds = Object.keys(productQuantities);
 
-  // Obtener todos los productos necesarios en una sola consulta
+  // Get all required products in a single query
   const ticketProductIds = ticket.products.map((p) => p.id.toString());
   const allProductIds = Array.from(
     new Set([...uniqueProductIds, ...ticketProductIds])
@@ -75,13 +72,13 @@ const addProducts = async (
 
   const allProducts = await Product.find({ _id: { $in: allProductIds } });
 
-  // Crear un mapa de productId a producto para acceso rápido
+  // Create a map of productId to product for quick access
   const productMap = new Map<string, Product>();
   allProducts.forEach((product) => {
     productMap.set(product._id.toString(), product);
   });
 
-  // Actualizar los productos del ticket
+  // Update the ticket's products
   for (const productIdStr of uniqueProductIds) {
     const quantityToAdd = productQuantities[productIdStr] || 0;
 
@@ -106,7 +103,7 @@ const addProducts = async (
 
   await ticket.save();
 
-  // Preparar la lista de productos para devolver
+  // Prepare the list of products to return
   const productsToReturn = ticket.products
     .map((ticketProduct) => {
       const product = productMap.get(ticketProduct.id.toString());
@@ -122,7 +119,7 @@ const addProducts = async (
           description: product.description,
         };
       } else {
-        // Si el producto no se encuentra, no lo incluimos en la lista devuelta
+        // If the product is not found, do not include it in the returned list
         return null;
       }
     })
