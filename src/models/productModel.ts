@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import { ObjectId } from "mongodb";
 
 interface Product {
+  _id: ObjectId;
   name: string;
   description: string;
   image: string;
@@ -14,6 +15,10 @@ interface Product {
 }
 
 const productSchema = new Schema<Product>({
+  _id: {
+    type: Schema.Types.ObjectId,
+    auto: true,
+  },
   name: {
     type: String,
     required: true,

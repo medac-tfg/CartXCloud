@@ -6,8 +6,9 @@ import AdditionalProduct from "../models/additionalProductModel.js";
 
 import {
   StartOrderBody,
-  AddProductBody,
+  AddProductsBody,
   ChangeAdditionalItemQuantityBody,
+  AddSingleProductBody,
 } from "../@types/cart.js";
 
 const startOrder = async (
@@ -20,14 +21,118 @@ const startOrder = async (
     return;
   }
 
-  // Note that cartId is already available in the request object due to the middleware
   const ticket = await Ticket.create({ shoppingMethod, cart: request.cartId });
 
   return { ticketId: ticket._id };
 };
 
-const addProduct = async (
-  request: FastifyRequest<{ Body: AddProductBody }>,
+const addProducts = async (
+  request: FastifyRequest<{ Body: AddProductsBody }>,
+  reply: FastifyReply
+) => {
+  const { ticketId, tags } = request.body;
+
+  if (!ticketId || !tags || !Array.isArray(tags) || tags.length === 0) {
+    reply
+      .code(400)
+      .send({ message: "Ticket ID and a list of RFID tags are required" });
+    return;
+  }
+
+  const ticket = await Ticket.findById(ticketId);
+  if (!ticket) {
+    reply.code(404).send({ message: "Ticket not found" });
+    return;
+  }
+
+  // Encontrar todos los ScannedProducts para las etiquetas dadas
+  const scannedProducts = await ScannedProduct.find({ rfid: { $in: tags } });
+
+  if (!scannedProducts || scannedProducts.length === 0) {
+    // No se encontraron productos escaneados
+    reply
+      .code(404)
+      .send({ message: "No products found for the provided tags" });
+    return;
+  }
+
+  // Construir un mapa de productId a quantity
+  const productQuantities: { [productId: string]: number } = {};
+
+  scannedProducts.forEach((sp) => {
+    const productIdStr = sp.productId.toString();
+    productQuantities[productIdStr] =
+      (productQuantities[productIdStr] || 0) + 1;
+  });
+
+  const uniqueProductIds = Object.keys(productQuantities);
+
+  // Obtener todos los productos necesarios en una sola consulta
+  const ticketProductIds = ticket.products.map((p) => p.id.toString());
+  const allProductIds = Array.from(
+    new Set([...uniqueProductIds, ...ticketProductIds])
+  );
+
+  const allProducts = await Product.find({ _id: { $in: allProductIds } });
+
+  // Crear un mapa de productId a producto para acceso rápido
+  const productMap = new Map<string, Product>();
+  allProducts.forEach((product) => {
+    productMap.set(product._id.toString(), product);
+  });
+
+  // Actualizar los productos del ticket
+  for (const productIdStr of uniqueProductIds) {
+    const quantityToAdd = productQuantities[productIdStr] || 0;
+
+    const existingProduct = ticket.products.find(
+      (p) => p.id.toString() === productIdStr
+    );
+
+    if (existingProduct) {
+      existingProduct.quantity += quantityToAdd;
+    } else {
+      const product = productMap.get(productIdStr);
+      if (product) {
+        ticket.products.push({
+          id: product._id,
+          priceNoVat: product.priceNoVat,
+          tax: product.tax,
+          quantity: quantityToAdd,
+        });
+      }
+    }
+  }
+
+  await ticket.save();
+
+  // Preparar la lista de productos para devolver
+  const productsToReturn = ticket.products
+    .map((ticketProduct) => {
+      const product = productMap.get(ticketProduct.id.toString());
+
+      if (product) {
+        return {
+          id: product._id,
+          priceNoVat: product.priceNoVat,
+          tax: product.tax,
+          quantity: ticketProduct.quantity,
+          image: product.image,
+          name: product.name,
+          description: product.description,
+        };
+      } else {
+        // Si el producto no se encuentra, no lo incluimos en la lista devuelta
+        return null;
+      }
+    })
+    .filter((item) => item !== null);
+
+  reply.send(productsToReturn);
+};
+
+const addSingleProduct = async (
+  request: FastifyRequest<{ Body: AddSingleProductBody }>,
   reply: FastifyReply
 ) => {
   const { ticketId, rfid } = request.body;
@@ -122,4 +227,9 @@ const changeAdditionalItemQuantity = async (
   return ticket;
 };
 
-export { startOrder, addProduct, changeAdditionalItemQuantity };
+export {
+  startOrder,
+  addProducts,
+  addSingleProduct,
+  changeAdditionalItemQuantity,
+};
