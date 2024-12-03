@@ -1,7 +1,7 @@
 export const addProductsSchema = {
   body: {
     type: "object",
-    required: ["ticketId", "rfid"],
+    required: ["ticketId", "tags"],
     properties: {
       ticketId: { type: "string" },
       tags: { type: "array", items: { type: "string" } },
