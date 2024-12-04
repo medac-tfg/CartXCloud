@@ -130,11 +130,7 @@ const addProducts = async (
           image: product.image,
           name: product.name,
           description: product.description,
-          category: {
-            id: product.category._id.toString(),
-            name: product.category.name,
-            image: product.category.image,
-          },
+          category: product.category.name,
         };
       } else {
         return null;
@@ -148,14 +144,10 @@ const addProducts = async (
     image: string;
     name: string;
     description: string;
-    category: {
-      id: string;
-      name: string;
-      image: string;
-    };
+    category: string; // Only category name
   }>;
 
-  // Build categories to return without extra queries
+  // Build categories to return
   const categoryMap = new Map<
     string,
     {
@@ -166,21 +158,30 @@ const addProducts = async (
     }
   >();
 
-  productsToReturn.forEach((product) => {
-    const category = product.category;
-    if (category && category.id) {
-      const categoryIdStr = category.id;
+  // Populate categoryMap directly from productMap
+  allProducts.forEach((product) => {
+    if (product.category && product.category._id) {
+      const categoryIdStr = product.category._id.toString();
       if (!categoryMap.has(categoryIdStr)) {
         categoryMap.set(categoryIdStr, {
-          id: category.id,
-          name: category.name,
-          image: category.image,
-          productQuantity: product.quantity || 0,
+          id: categoryIdStr,
+          name: product.category.name,
+          image: product.category.image,
+          productQuantity: 0,
         });
-      } else {
-        const categoryEntry = categoryMap.get(categoryIdStr)!;
-        categoryEntry.productQuantity += product.quantity || 0;
       }
+    }
+  });
+
+  // Update product quantities in categoryMap
+  productsToReturn.forEach((product) => {
+    const category = allProducts
+      .find((p) => p.name === product.name)
+      ?.category._id.toString();
+
+    if (category && categoryMap.has(category)) {
+      const categoryEntry = categoryMap.get(category)!;
+      categoryEntry.productQuantity += product.quantity || 0;
     }
   });
 
