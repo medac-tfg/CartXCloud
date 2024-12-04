@@ -10,6 +10,7 @@ import {
   ChangeAdditionalItemQuantityBody,
   AddSingleProductBody,
 } from "../@types/cart.js";
+import Category from "../models/categoryModel.js";
 
 const startOrder = async (
   request: FastifyRequest<{ Body: StartOrderBody }>,
@@ -70,7 +71,9 @@ const addProducts = async (
     new Set([...uniqueProductIds, ...ticketProductIds])
   );
 
-  const allProducts = await Product.find({ _id: { $in: allProductIds } });
+  const allProducts = await Product.find({
+    _id: { $in: allProductIds },
+  }).populate("category");
 
   // Create a map of productId to product for quick access
   const productMap = new Map<string, Product>();
@@ -117,15 +120,43 @@ const addProducts = async (
           image: product.image,
           name: product.name,
           description: product.description,
+          category: product.category?._id, // Include category ID for grouping
         };
       } else {
-        // If the product is not found, do not include it in the returned list
         return null;
       }
     })
     .filter((item) => item !== null);
 
-  reply.send(productsToReturn);
+  // Extract unique categories from products
+  const uniqueCategories = Array.from(
+    new Set(
+      productsToReturn
+        .map((product) => product?.category)
+        .filter((categoryId) => categoryId)
+    )
+  );
+
+  // Fetch category details
+  const categories = await Category.find({ _id: { $in: uniqueCategories } });
+
+  const categoriesToReturn = categories.map((category) => {
+    const productsInCategory = productsToReturn.filter(
+      (product) => product?.category?.toString() === category._id.toString()
+    );
+
+    return {
+      id: category._id,
+      name: category.name,
+      image: category.image,
+      productQuantity: productsInCategory.reduce(
+        (sum, product) => sum + (product?.quantity || 0),
+        0
+      ),
+    };
+  });
+
+  reply.send({ products: productsToReturn, categories: categoriesToReturn });
 };
 
 const addSingleProduct = async (
