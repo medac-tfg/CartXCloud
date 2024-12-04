@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import Ticket from "../models/ticketModel.js";
+import Category from "../models/categoryModel.js";
 import Product from "../models/productModel.js";
 import ScannedProduct from "../models/scannedProductModel.js";
 import AdditionalProduct from "../models/additionalProductModel.js";
@@ -10,7 +11,6 @@ import {
   ChangeAdditionalItemQuantityBody,
   AddSingleProductBody,
 } from "../@types/cart.js";
-import Category from "../models/categoryModel.js";
 
 const startOrder = async (
   request: FastifyRequest<{ Body: StartOrderBody }>,
@@ -65,18 +65,28 @@ const addProducts = async (
 
   const uniqueProductIds = Object.keys(productQuantities);
 
-  // Get all required products in a single query
+  // Get all required products in a single query and populate category name
   const ticketProductIds = ticket.products.map((p) => p.id.toString());
   const allProductIds = Array.from(
     new Set([...uniqueProductIds, ...ticketProductIds])
   );
 
-  const allProducts = await Product.find({
+  // Type definition for a product with populated category
+  type ProductWithCategory = Product & {
+    category: Category; // Category is fully populated
+  };
+
+  const allProducts = (await Product.find({
     _id: { $in: allProductIds },
-  }).populate("category");
+  })
+    .populate({
+      path: "category",
+      select: "name image", // Include the name and image of the category
+    })
+    .exec()) as unknown as ProductWithCategory[];
 
   // Create a map of productId to product for quick access
-  const productMap = new Map<string, Product>();
+  const productMap = new Map<string, ProductWithCategory>();
   allProducts.forEach((product) => {
     productMap.set(product._id.toString(), product);
   });
@@ -113,48 +123,68 @@ const addProducts = async (
 
       if (product) {
         return {
-          id: product._id,
+          id: product._id.toString(),
           priceNoVat: product.priceNoVat,
           tax: product.tax,
           quantity: ticketProduct.quantity,
           image: product.image,
           name: product.name,
           description: product.description,
-          category: product.category?._id, // Include category ID for grouping
+          category: {
+            id: product.category._id.toString(),
+            name: product.category.name,
+            image: product.category.image,
+          },
         };
       } else {
         return null;
       }
     })
-    .filter((item) => item !== null);
-
-  // Extract unique categories from products
-  const uniqueCategories = Array.from(
-    new Set(
-      productsToReturn
-        .map((product) => product?.category)
-        .filter((categoryId) => categoryId)
-    )
-  );
-
-  // Fetch category details
-  const categories = await Category.find({ _id: { $in: uniqueCategories } });
-
-  const categoriesToReturn = categories.map((category) => {
-    const productsInCategory = productsToReturn.filter(
-      (product) => product?.category?.toString() === category._id.toString()
-    );
-
-    return {
-      id: category._id,
-      name: category.name,
-      image: category.image,
-      productQuantity: productsInCategory.reduce(
-        (sum, product) => sum + (product?.quantity || 0),
-        0
-      ),
+    .filter((item) => item !== null) as Array<{
+    id: string;
+    priceNoVat: number;
+    tax: number;
+    quantity: number;
+    image: string;
+    name: string;
+    description: string;
+    category: {
+      id: string;
+      name: string;
+      image: string;
     };
+  }>;
+
+  // Build categories to return without extra queries
+  const categoryMap = new Map<
+    string,
+    {
+      id: string;
+      name: string;
+      image: string;
+      productQuantity: number;
+    }
+  >();
+
+  productsToReturn.forEach((product) => {
+    const category = product.category;
+    if (category && category.id) {
+      const categoryIdStr = category.id;
+      if (!categoryMap.has(categoryIdStr)) {
+        categoryMap.set(categoryIdStr, {
+          id: category.id,
+          name: category.name,
+          image: category.image,
+          productQuantity: product.quantity || 0,
+        });
+      } else {
+        const categoryEntry = categoryMap.get(categoryIdStr)!;
+        categoryEntry.productQuantity += product.quantity || 0;
+      }
+    }
   });
+
+  const categoriesToReturn = Array.from(categoryMap.values());
 
   reply.send({ products: productsToReturn, categories: categoriesToReturn });
 };

@@ -1,6 +1,8 @@
 import { Schema, model } from "mongoose";
 import { ObjectId } from "mongodb";
 
+import Category from "./categoryModel.js";
+
 interface Product {
   _id: ObjectId;
   name: string;
@@ -45,7 +47,7 @@ const productSchema = new Schema<Product>({
   },
   category: {
     type: Schema.Types.ObjectId,
-    ref: "Category",
+    ref: Category,
   },
   barcode: {
     type: String,
