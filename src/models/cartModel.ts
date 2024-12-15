@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import { ObjectId } from "mongodb";
 
 interface Cart {
+  _id: ObjectId;
   name: string;
   shop: ObjectId;
   accessTokens: string[];

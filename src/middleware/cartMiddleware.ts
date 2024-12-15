@@ -3,8 +3,9 @@ import Cart from "../models/cartModel.js";
 
 declare module "fastify" {
   interface FastifyRequest {
-    cartId?: string;
-    cartToken?: string;
+    cartId: string;
+    cartToken: string;
+    cart: Cart;
   }
 }
 
@@ -36,7 +37,7 @@ const cartMiddleware = async (request: FastifyRequest, reply: FastifyReply) => {
     return;
   }
 
-  request.cartId = cartId;
+  request.cart = cart;
 };
 
 export default cartMiddleware;

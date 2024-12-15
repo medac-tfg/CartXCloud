@@ -3,13 +3,14 @@ import Ticket from "../models/ticketModel.js";
 import Category from "../models/categoryModel.js";
 import Product from "../models/productModel.js";
 import ScannedProduct from "../models/scannedProductModel.js";
-import AdditionalProduct from "../models/additionalProductModel.js";
+import Shop from "../models/shopModel.js";
 
 import {
+  BaseParams,
   StartOrderBody,
   AddProductsBody,
-  ChangeAdditionalItemQuantityBody,
   AddSingleProductBody,
+  ChangeAdditionalItemQuantityBody,
 } from "../@types/cart.js";
 
 const startOrder = async (
@@ -22,16 +23,36 @@ const startOrder = async (
     return;
   }
 
-  const ticket = await Ticket.create({ shoppingMethod, cart: request.cartId });
+  const shop = await Shop.findById(request.cart.shop);
+  if (!shop) {
+    reply.code(404).send({ message: "Shop not found" });
+    return;
+  }
+
+  const additionalProducts = shop.additionalProductList?.map((product) => ({
+    _id: product._id,
+    name: product.name,
+    image: product.image,
+    priceNoVat: product.priceNoVat,
+    tax: product.tax,
+    quantity: 0,
+  })) || [];
+
+  const ticket = await Ticket.create({
+    shoppingMethod,
+    cart: request.cart._id,
+    additionalProducts: additionalProducts,
+  });
 
   return { ticketId: ticket._id };
 };
 
 const addProducts = async (
-  request: FastifyRequest<{ Body: AddProductsBody }>,
+  request: FastifyRequest<{ Params: BaseParams; Body: AddProductsBody }>,
   reply: FastifyReply
 ) => {
-  const { ticketId, tags } = request.body;
+  const { tags } = request.body;
+  const { ticketId } = request.params;
 
   if (!ticketId || !tags || !Array.isArray(tags) || tags.length === 0) {
     reply
@@ -81,7 +102,7 @@ const addProducts = async (
   })
     .populate({
       path: "category",
-      select: "name image", // Include the name and image of the category
+      select: "name icon", // Include the name and icon of the category
     })
     .exec()) as unknown as ProductWithCategory[];
 
@@ -153,7 +174,7 @@ const addProducts = async (
     {
       id: string;
       name: string;
-      image: string;
+      icon: { lib: string; icon: string };
       productQuantity: number;
     }
   >();
@@ -166,7 +187,7 @@ const addProducts = async (
         categoryMap.set(categoryIdStr, {
           id: categoryIdStr,
           name: product.category.name,
-          image: product.category.image,
+          icon: product.category.icon,
           productQuantity: 0,
         });
       }
@@ -191,10 +212,12 @@ const addProducts = async (
 };
 
 const addSingleProduct = async (
-  request: FastifyRequest<{ Body: AddSingleProductBody }>,
+  request: FastifyRequest<{ Params: BaseParams; Body: AddSingleProductBody }>,
   reply: FastifyReply
 ) => {
-  const { ticketId, rfid } = request.body;
+  const { rfid } = request.body;
+  const { ticketId } = request.params;
+
   if (!ticketId || !rfid) {
     reply.code(400).send({ message: "Ticket ID and RFID are required" });
     return;
@@ -239,11 +262,35 @@ const addSingleProduct = async (
   return ticket;
 };
 
-const changeAdditionalItemQuantity = async (
-  request: FastifyRequest<{ Body: ChangeAdditionalItemQuantityBody }>,
+const getAdditionalProducts = async (
+  request: FastifyRequest<{ Params: BaseParams }>,
   reply: FastifyReply
 ) => {
-  const { itemId, ticketId, quantity } = request.body;
+  const { ticketId } = request.params;
+  if (!ticketId) {
+    reply.code(400).send({ message: "Ticket ID is required" });
+    return;
+  }
+
+  const ticket = await Ticket.findById(ticketId);
+  if (!ticket) {
+    reply.code(404).send({ message: "Ticket not found" });
+    return;
+  }
+
+  return ticket.additionalProducts;
+};
+
+const changeAdditionalItemQuantity = async (
+  request: FastifyRequest<{
+    Params: BaseParams;
+    Body: ChangeAdditionalItemQuantityBody;
+  }>,
+  reply: FastifyReply
+) => {
+  const { itemId, quantity } = request.body;
+  const { ticketId } = request.params;
+
   if (!itemId || !ticketId || quantity === null) {
     reply
       .code(400)
@@ -257,38 +304,25 @@ const changeAdditionalItemQuantity = async (
     return;
   }
 
-  const additionalProduct = await AdditionalProduct.findById(itemId);
+  const additionalProduct = ticket.additionalProducts.find(
+    (p) => p._id.toString() === itemId.toString()
+  );
   if (!additionalProduct) {
-    reply.code(404).send({ message: "Additional Product not found" });
+    reply.code(404).send({ message: "Additional product not found" });
     return;
   }
 
-  const existingProduct = ticket.additionalProducts.find(
-    (p) => p.id.toString() === additionalProduct._id.toString()
-  );
-
-  if (existingProduct) {
-    if (quantity === 0) {
-      ticket.additionalProducts = ticket.additionalProducts.filter(
-        (p) => p.id.toString() !== additionalProduct._id.toString()
-      );
-    } else existingProduct.quantity = quantity;
-  } else {
-    ticket.additionalProducts.push({
-      id: additionalProduct._id,
-      priceNoVat: additionalProduct.priceNoVat,
-      tax: additionalProduct.tax,
-      quantity,
-    });
-  }
+  additionalProduct.quantity = quantity;
 
   await ticket.save();
-  return ticket;
+
+  return ticket.additionalProducts;
 };
 
 export {
   startOrder,
   addProducts,
   addSingleProduct,
+  getAdditionalProducts,
   changeAdditionalItemQuantity,
 };

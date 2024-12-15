@@ -1,9 +1,8 @@
 export const addProductsSchema = {
   body: {
     type: "object",
-    required: ["ticketId", "tags"],
+    required: ["tags"],
     properties: {
-      ticketId: { type: "string" },
       tags: { type: "array", items: { type: "string" } },
     },
   },
@@ -12,9 +11,8 @@ export const addProductsSchema = {
 export const addSingleProductSchema = {
   body: {
     type: "object",
-    required: ["ticketId", "rfid"],
+    required: ["rfid"],
     properties: {
-      ticketId: { type: "string" },
       rfid: { type: "string" },
     },
   },
@@ -23,10 +21,9 @@ export const addSingleProductSchema = {
 export const changeAdditionalItemQuantitySchema = {
   body: {
     type: "object",
-    required: ["itemId", "ticketId", "quantity"],
+    required: ["itemId", "quantity"],
     properties: {
       itemId: { type: "string" },
-      ticketId: { type: "string" },
       quantity: { type: "number" },
     },
   },

@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 interface Category {
   name: string;
-  image: string;
+  icon: { lib: string; icon: string };
   createdAt: Date;
 }
 
@@ -11,8 +11,8 @@ const categorySchema = new Schema<Category>({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
+  icon: {
+    type: Object,
     required: true,
   },
   createdAt: {

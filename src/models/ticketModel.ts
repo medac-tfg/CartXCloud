@@ -22,9 +22,16 @@ const productSchema = new Schema({
 });
 
 const additionalProductSchema = new Schema({
-  id: {
+  _id: {
     type: Schema.Types.ObjectId,
-    ref: "Product",
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
     required: true,
   },
   priceNoVat: {
@@ -61,7 +68,9 @@ interface Ticket {
     quantity: number;
   }[];
   additionalProducts: {
-    id: ObjectId;
+    _id: ObjectId;
+    name: string;
+    image: string;
     priceNoVat: number;
     tax: number;
     quantity: number;

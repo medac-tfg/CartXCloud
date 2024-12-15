@@ -2,6 +2,10 @@ export interface StartOrderBody {
   shoppingMethod: string;
 }
 
+export interface BaseParams {
+  ticketId: string;
+}
+
 export interface AddProductsBody {
   ticketId: string;
   tags: string[];
