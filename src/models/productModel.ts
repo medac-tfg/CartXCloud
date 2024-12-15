@@ -7,6 +7,7 @@ interface Product {
   _id: ObjectId;
   name: string;
   description: string;
+  brand: string;
   image: string;
   priceNoVat: number;
   tax: number;
@@ -26,6 +27,10 @@ const productSchema = new Schema<Product>({
     required: true,
   },
   description: {
+    type: String,
+    required: true,
+  },
+  brand: {
     type: String,
     required: true,
   },

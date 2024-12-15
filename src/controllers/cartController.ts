@@ -127,8 +127,13 @@ const addProducts = async (
       if (product) {
         ticket.products.push({
           id: product._id,
+          name: product.name,
+          description: product.description,
+          brand: product.brand,
+          image: product.image,
           priceNoVat: product.priceNoVat,
           tax: product.tax,
+          weight: product.weight,
           quantity: quantityToAdd,
         });
       }
@@ -145,13 +150,15 @@ const addProducts = async (
       if (product) {
         return {
           id: product._id.toString(),
-          priceNoVat: product.priceNoVat,
-          tax: product.tax,
-          quantity: ticketProduct.quantity,
-          image: product.image,
           name: product.name,
           description: product.description,
+          brand: product.brand,
+          image: product.image,
+          priceNoVat: product.priceNoVat,
+          tax: product.tax,
+          weight: product.weight,
           category: product.category.name,
+          quantity: ticketProduct.quantity,
         };
       } else {
         return null;
@@ -159,13 +166,15 @@ const addProducts = async (
     })
     .filter((item) => item !== null) as Array<{
     id: string;
-    priceNoVat: number;
-    tax: number;
-    quantity: number;
-    image: string;
     name: string;
     description: string;
+    brand: string;
+    image: string;
+    priceNoVat: number;
+    tax: number;
+    weight: number;
     category: string; // Only category name
+    quantity: number;
   }>;
 
   // Build categories to return
@@ -252,8 +261,13 @@ const addSingleProduct = async (
 
   ticket.products.push({
     id: product._id,
+    name: product.name,
+    description: product.description,
+    brand: product.brand,
+    image: product.image,
     priceNoVat: product.priceNoVat,
     tax: product.tax,
+    weight: product.weight,
     quantity: 1,
   });
 

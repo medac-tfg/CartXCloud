@@ -63,8 +63,13 @@ const discountSchema = new Schema({
 interface Ticket {
   products: {
     id: ObjectId;
+    name: string;
+    description: string;
+    brand: string;
+    image: string;
     priceNoVat: number;
     tax: number;
+    weight: number;
     quantity: number;
   }[];
   additionalProducts: {
