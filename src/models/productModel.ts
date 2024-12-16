@@ -9,7 +9,7 @@ interface Product {
   description: string;
   brand: string;
   image: string;
-  priceNoVat: number;
+  priceWithTax: number;
   tax: number;
   weight: number;
   category: ObjectId;
@@ -38,7 +38,7 @@ const productSchema = new Schema<Product>({
     type: String,
     required: true,
   },
-  priceNoVat: {
+  priceWithTax: {
     type: Number,
     required: true,
   },

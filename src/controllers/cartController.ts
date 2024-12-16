@@ -36,7 +36,7 @@ const startOrder = async (
       _id: product._id,
       name: product.name,
       image: product.image,
-      priceNoVat: product.priceNoVat,
+      priceWithTax: product.priceWithTax,
       tax: product.tax,
       quantity: 0,
     })) || [];
@@ -134,7 +134,7 @@ const addProducts = async (
           description: product.description,
           brand: product.brand,
           image: product.image,
-          priceNoVat: product.priceNoVat,
+          priceWithTax: product.priceWithTax,
           tax: product.tax,
           weight: product.weight,
           quantity: quantityToAdd,
@@ -157,7 +157,7 @@ const addProducts = async (
           description: product.description,
           brand: product.brand,
           image: product.image,
-          priceNoVat: product.priceNoVat,
+          priceWithTax: product.priceWithTax,
           tax: product.tax,
           weight: product.weight,
           category: product.category.name,
@@ -173,7 +173,7 @@ const addProducts = async (
     description: string;
     brand: string;
     image: string;
-    priceNoVat: number;
+    priceWithTax: number;
     tax: number;
     weight: number;
     category: string; // Only category name
@@ -268,7 +268,7 @@ const addSingleProduct = async (
     description: product.description,
     brand: product.brand,
     image: product.image,
-    priceNoVat: product.priceNoVat,
+    priceWithTax: product.priceWithTax,
     tax: product.tax,
     weight: product.weight,
     quantity: 1,
@@ -364,16 +364,22 @@ const getTicketInvoice = async (
 
   // Calculate subtotal and tax for products
   ticket.products.forEach((product) => {
-    const productPrice = new Big(product.priceNoVat).times(product.quantity);
-    subtotal = subtotal.plus(productPrice);
-    totalTax = totalTax.plus(productPrice.times(product.tax));
+    const productPriceWithTax = new Big(product.priceWithTax).times(product.quantity);
+    const productPriceNoVat = productPriceWithTax.div(1 + product.tax);
+    const productTax = productPriceWithTax.minus(productPriceNoVat);
+
+    subtotal = subtotal.plus(productPriceNoVat);
+    totalTax = totalTax.plus(productTax);
   });
 
   // Calculate subtotal and tax for additional products
   ticket.additionalProducts.forEach((product) => {
-    const productPrice = new Big(product.priceNoVat).times(product.quantity);
-    subtotal = subtotal.plus(productPrice);
-    totalTax = totalTax.plus(productPrice.times(product.tax));
+    const productPriceWithTax = new Big(product.priceWithTax).times(product.quantity);
+    const productPriceNoVat = productPriceWithTax.div(1 + product.tax);
+    const productTax = productPriceWithTax.minus(productPriceNoVat);
+
+    subtotal = subtotal.plus(productPriceNoVat);
+    totalTax = totalTax.plus(productTax);
   });
 
   // Calculate total discount
@@ -385,10 +391,10 @@ const getTicketInvoice = async (
   const total = subtotal.plus(totalTax).minus(discount);
 
   return {
-    subtotal: subtotal.toFixed(2),
+    subtotal: subtotal.toFixed(2), // Excluding VAT
     discount: discount.toFixed(2),
-    totalTax: totalTax.toFixed(2),
-    total: total.toFixed(2),
+    totalTax: totalTax.toFixed(2), // Total VAT
+    total: total.toFixed(2),       // Including VAT
   };
 };
 

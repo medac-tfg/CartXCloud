@@ -5,7 +5,7 @@ interface AdditionalProduct {
   _id: ObjectId;
   name: string;
   image: string;
-  priceNoVat: number;
+  priceWithTax: number;
   tax: number;
   createdAt: Date;
 }
@@ -19,7 +19,7 @@ const additionalProductSchema = new Schema<AdditionalProduct>({
     type: String,
     required: true,
   },
-  priceNoVat: {
+  priceWithTax: {
     type: Number,
     required: true,
   },

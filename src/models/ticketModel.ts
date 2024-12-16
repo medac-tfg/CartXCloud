@@ -7,7 +7,7 @@ const productSchema = new Schema({
     ref: "Product",
     required: true,
   },
-  priceNoVat: {
+  priceWithTax: {
     type: Number,
     required: true,
   },
@@ -34,7 +34,7 @@ const additionalProductSchema = new Schema({
     type: String,
     required: true,
   },
-  priceNoVat: {
+  priceWithTax: {
     type: Number,
     required: true,
   },
@@ -67,7 +67,7 @@ interface Ticket {
     description: string;
     brand: string;
     image: string;
-    priceNoVat: number;
+    priceWithTax: number;
     tax: number;
     weight: number;
     quantity: number;
@@ -76,7 +76,7 @@ interface Ticket {
     _id: ObjectId;
     name: string;
     image: string;
-    priceNoVat: number;
+    priceWithTax: number;
     tax: number;
     quantity: number;
   }[];
