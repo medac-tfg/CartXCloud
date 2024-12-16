@@ -5,6 +5,7 @@ import {
   addSingleProduct,
   getAdditionalProducts,
   changeAdditionalItemQuantity,
+  getTicketInvoice,
 } from "../controllers/cartController.js";
 import cartMiddleware from "../middleware/cartMiddleware.js";
 import {
@@ -55,5 +56,13 @@ export default fastifyPlugin(async (fastify, _opts) => {
     handler: changeAdditionalItemQuantity,
     preHandler: cartMiddleware,
     schema: changeAdditionalItemQuantitySchema,
+  });
+
+  // Get Ticket Invoice
+  fastify.route({
+    method: "GET",
+    url: "/api/cart/:ticketId/getTicketInvoice",
+    handler: getTicketInvoice,
+    preHandler: cartMiddleware,
   });
 });

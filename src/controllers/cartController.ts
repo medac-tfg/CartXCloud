@@ -29,14 +29,15 @@ const startOrder = async (
     return;
   }
 
-  const additionalProducts = shop.additionalProductList?.map((product) => ({
-    _id: product._id,
-    name: product.name,
-    image: product.image,
-    priceNoVat: product.priceNoVat,
-    tax: product.tax,
-    quantity: 0,
-  })) || [];
+  const additionalProducts =
+    shop.additionalProductList?.map((product) => ({
+      _id: product._id,
+      name: product.name,
+      image: product.image,
+      priceNoVat: product.priceNoVat,
+      tax: product.tax,
+      quantity: 0,
+    })) || [];
 
   const ticket = await Ticket.create({
     shoppingMethod,
@@ -333,10 +334,61 @@ const changeAdditionalItemQuantity = async (
   return ticket.additionalProducts;
 };
 
+const getTicketInvoice = async (
+  request: FastifyRequest<{ Params: BaseParams }>,
+  reply: FastifyReply
+) => {
+  const { ticketId } = request.params;
+  if (!ticketId) {
+    reply.code(400).send({ message: "Ticket ID is required" });
+    return;
+  }
+
+  const ticket = await Ticket.findById(ticketId);
+  if (!ticket) {
+    reply.code(404).send({ message: "Ticket not found" });
+    return;
+  }
+
+  const shop = await Shop.findById(request.cart.shop);
+  if (!shop) {
+    reply.code(404).send({ message: "Shop not found" });
+    return;
+  }
+
+  let [subtotal, totalTax, discount, total] = [0, 0, 0, 0];
+
+  ticket.products.forEach((product) => {
+    const productPrice = product.priceNoVat * product.quantity;
+    subtotal += productPrice;
+    totalTax += productPrice * product.tax;
+  });
+
+  ticket.additionalProducts.forEach((product) => {
+    const productPrice = product.priceNoVat * product.quantity;
+    subtotal += productPrice;
+    totalTax += productPrice * product.tax;
+  });
+
+  ticket.discounts.forEach((discountObj) => {
+    discount += discountObj.amount;
+  });
+
+  total = subtotal + totalTax - discount;
+
+  return {
+    subtotal,
+    discount,
+    totalTax,
+    total,
+  };
+};
+
 export {
   startOrder,
   addProducts,
   addSingleProduct,
   getAdditionalProducts,
   changeAdditionalItemQuantity,
+  getTicketInvoice,
 };
