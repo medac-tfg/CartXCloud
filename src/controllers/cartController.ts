@@ -1,4 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
+import Big from "big.js";
+
 import Ticket from "../models/ticketModel.js";
 import Category from "../models/categoryModel.js";
 import Product from "../models/productModel.js";
@@ -356,31 +358,37 @@ const getTicketInvoice = async (
     return;
   }
 
-  let [subtotal, totalTax, discount, total] = [0, 0, 0, 0];
+  let subtotal = new Big(0);
+  let totalTax = new Big(0);
+  let discount = new Big(0);
 
+  // Calculate subtotal and tax for products
   ticket.products.forEach((product) => {
-    const productPrice = product.priceNoVat * product.quantity;
-    subtotal += productPrice;
-    totalTax += productPrice * product.tax;
+    const productPrice = new Big(product.priceNoVat).times(product.quantity);
+    subtotal = subtotal.plus(productPrice);
+    totalTax = totalTax.plus(productPrice.times(product.tax));
   });
 
+  // Calculate subtotal and tax for additional products
   ticket.additionalProducts.forEach((product) => {
-    const productPrice = product.priceNoVat * product.quantity;
-    subtotal += productPrice;
-    totalTax += productPrice * product.tax;
+    const productPrice = new Big(product.priceNoVat).times(product.quantity);
+    subtotal = subtotal.plus(productPrice);
+    totalTax = totalTax.plus(productPrice.times(product.tax));
   });
 
+  // Calculate total discount
   ticket.discounts.forEach((discountObj) => {
-    discount += discountObj.amount;
+    discount = discount.plus(discountObj.amount);
   });
 
-  total = subtotal + totalTax - discount;
+  // Calculate total
+  const total = subtotal.plus(totalTax).minus(discount);
 
   return {
-    subtotal,
-    discount,
-    totalTax,
-    total,
+    subtotal: subtotal.toFixed(2),
+    discount: discount.toFixed(2),
+    totalTax: totalTax.toFixed(2),
+    total: total.toFixed(2),
   };
 };
 
