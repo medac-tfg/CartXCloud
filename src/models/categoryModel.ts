@@ -3,6 +3,7 @@ import { Schema, model } from "mongoose";
 interface Category {
   name: string;
   icon: { lib: string; icon: string };
+  color: string;
   createdAt: Date;
 }
 
@@ -13,6 +14,10 @@ const categorySchema = new Schema<Category>({
   },
   icon: {
     type: Object,
+    required: true,
+  },
+  color: {
+    type: String,
     required: true,
   },
   createdAt: {

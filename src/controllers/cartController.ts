@@ -105,7 +105,7 @@ const addProducts = async (
   })
     .populate({
       path: "category",
-      select: "name icon", // Include the name and icon of the category
+      select: "name icon color", // Include the name, icon and color of the category
     })
     .exec()) as unknown as ProductWithCategory[];
 
@@ -161,6 +161,7 @@ const addProducts = async (
           tax: product.tax,
           weight: product.weight,
           category: product.category.name,
+          categoryColor: product.category.color,
           quantity: ticketProduct.quantity,
         };
       } else {
@@ -329,6 +330,8 @@ const changeAdditionalItemQuantity = async (
     return;
   }
 
+  if (quantity < 0) return ticket.additionalProducts;
+  
   additionalProduct.quantity = quantity;
 
   await ticket.save();
