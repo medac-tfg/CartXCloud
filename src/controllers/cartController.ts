@@ -13,6 +13,7 @@ import {
   AddProductsBody,
   AddSingleProductBody,
   ChangeAdditionalItemQuantityBody,
+  CheckAdminPinBody,
 } from "../@types/cart.js";
 
 const startOrder = async (
@@ -331,7 +332,7 @@ const changeAdditionalItemQuantity = async (
   }
 
   if (quantity < 0) return ticket.additionalProducts;
-  
+
   additionalProduct.quantity = quantity;
 
   await ticket.save();
@@ -367,7 +368,9 @@ const getTicketInvoice = async (
 
   // Calculate subtotal and tax for products
   ticket.products.forEach((product) => {
-    const productPriceWithTax = new Big(product.priceWithTax).times(product.quantity);
+    const productPriceWithTax = new Big(product.priceWithTax).times(
+      product.quantity
+    );
     const productPriceNoVat = productPriceWithTax.div(1 + product.tax);
     const productTax = productPriceWithTax.minus(productPriceNoVat);
 
@@ -377,7 +380,9 @@ const getTicketInvoice = async (
 
   // Calculate subtotal and tax for additional products
   ticket.additionalProducts.forEach((product) => {
-    const productPriceWithTax = new Big(product.priceWithTax).times(product.quantity);
+    const productPriceWithTax = new Big(product.priceWithTax).times(
+      product.quantity
+    );
     const productPriceNoVat = productPriceWithTax.div(1 + product.tax);
     const productTax = productPriceWithTax.minus(productPriceNoVat);
 
@@ -397,8 +402,31 @@ const getTicketInvoice = async (
     subtotal: subtotal.toFixed(2), // Excluding VAT
     discount: discount.toFixed(2),
     totalTax: totalTax.toFixed(2), // Total VAT
-    total: total.toFixed(2),       // Including VAT
+    total: total.toFixed(2), // Including VAT
   };
+};
+
+const checkAdminPin = async (
+  request: FastifyRequest<{
+    Body: CheckAdminPinBody;
+  }>,
+  _reply: FastifyReply
+) => {
+  const { adminPin } = request.body;
+  if (!adminPin) {
+    return false;
+  }
+
+  const shop = await Shop.findById(request.cart.shop);
+  if (!shop) {
+    return false;
+  }
+
+  if (shop.cartAdminPin !== adminPin) {
+    return false;
+  }
+
+  return true;
 };
 
 export {
@@ -408,4 +436,5 @@ export {
   getAdditionalProducts,
   changeAdditionalItemQuantity,
   getTicketInvoice,
+  checkAdminPin,
 };

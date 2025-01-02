@@ -37,6 +37,7 @@ interface Shop {
   name: string;
   productList: ObjectId[];
   additionalProductList: AdditionalProduct[];
+  cartAdminPin: string;
   createdAt: Date;
 }
 
@@ -53,6 +54,10 @@ const shopSchema = new Schema<Shop>({
   additionalProductList: {
     type: [additionalProductSchema],
     default: [],
+  },
+  cartAdminPin: {
+    type: String,
+    required: true,
   },
   createdAt: {
     type: Date,

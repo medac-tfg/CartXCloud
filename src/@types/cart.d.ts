@@ -21,3 +21,7 @@ export interface ChangeAdditionalItemQuantityBody {
   ticketId: string;
   quantity: number;
 }
+
+export interface CheckAdminPinBody {
+  adminPin: string;
+}

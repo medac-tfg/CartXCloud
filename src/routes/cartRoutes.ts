@@ -6,6 +6,7 @@ import {
   getAdditionalProducts,
   changeAdditionalItemQuantity,
   getTicketInvoice,
+  checkAdminPin,
 } from "../controllers/cartController.js";
 import cartMiddleware from "../middleware/cartMiddleware.js";
 import {
@@ -63,6 +64,14 @@ export default fastifyPlugin(async (fastify, _opts) => {
     method: "GET",
     url: "/api/cart/:ticketId/getTicketInvoice",
     handler: getTicketInvoice,
+    preHandler: cartMiddleware,
+  });
+
+  // Check Admin Pin
+  fastify.route({
+    method: "POST",
+    url: "/api/cart/checkAdminPin",
+    handler: checkAdminPin,
     preHandler: cartMiddleware,
   });
 });
