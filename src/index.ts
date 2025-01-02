@@ -6,6 +6,9 @@ import { fileURLToPath } from "url";
 import { Eta } from "eta";
 import path from "path";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import cartRoutes from "./routes/cartRoutes.js";
 import securityRoutes from "./routes/securityRoutes.js";
 import stockerRoutes from "./routes/stockerRoutes.js";
